@@ -1,0 +1,40 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp1.0</TargetFramework>
+    <PackageId>OperationResult.Extensions</PackageId>
+    <Version>1.0.0</Version>
+    <Authors>Ganușceac Vlad</Authors>
+    <Product>OperationResult.Extensions</Product>
+    <Title>OperationResult.Extensions</Title>
+    <Description>
+      The extensions for OperationResult have been created for managing HTTP statuses via OperationResult library and converting the corresponding execution results into ActionResults.
+    </Description>
+    <RepositoryUrl>https://github.com/VladGanuscheak/OperationResult.Extensions</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <PackageTags>result;operationresult;fluent;fluentresult;fluentoperationresult;extensions;utility;.net;dotnet;c#</PackageTags>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <PackageIcon>logo.png</PackageIcon>
+    <PackageIconUrl />
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="..\README.md">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+    <None Include="C:\Users\User\Desktop\Logos\logo.png">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Http" Version="1.1.2" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Core" Version="1.1.8" />
+    <PackageReference Include="OperationResult.Net" Version="1.0.0" />
+  </ItemGroup>
+
+</Project>
