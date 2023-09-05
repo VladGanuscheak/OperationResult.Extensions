@@ -18,7 +18,9 @@
     <PackageReadmeFile>README.md</PackageReadmeFile>
     <PackageIcon>logo.png</PackageIcon>
     <PackageIconUrl />
-    <PackageReleaseNotes>Migrated to .Net Core 1.1</PackageReleaseNotes>
+    <PackageReleaseNotes>Migrated to .Net Core 1.1
+Renamed OperationResultExtensions to OperationResultHelper
+Renamed ActionResultExtensions to OperationResultExtensions</PackageReleaseNotes>
   </PropertyGroup>
 
   <ItemGroup>
@@ -35,7 +37,7 @@
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Http" Version="1.1.2" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Core" Version="1.1.8" />
-    <PackageReference Include="OperationResult.Net" Version="1.0.0" />
+    <PackageReference Include="OperationResult.Net" Version="1.1.0" />
   </ItemGroup>
 
   <ItemGroup>
