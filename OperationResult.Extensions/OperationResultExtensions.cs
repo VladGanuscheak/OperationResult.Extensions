@@ -42,6 +42,16 @@ namespace OperationResult.Extensions
             return result.AsActionResult(StatusCodes.Status207MultiStatus);
         }
 
+        public static ActionResult AsAlreadyReportedOrFailure(this OperationResult result)
+        {
+            return result.AsActionResult(StatusCodes.Status208AlreadyReported);
+        }
+
+        public static ActionResult AsIMUsedOrFailure(this OperationResult result)
+        {
+            return result.AsActionResult(StatusCodes.Status226IMUsed);
+        }
+
         public static ActionResult AsOkOrFailure<TData>(this OperationResult<TData> result)
         {
             return result.AsActionResult(StatusCodes.Status200OK);
@@ -85,6 +95,16 @@ namespace OperationResult.Extensions
         public static ActionResult AsMultiStatusOrFailure<TData>(this OperationResult<TData> result)
         {
             return result.AsActionResult(StatusCodes.Status207MultiStatus);
+        }
+
+        public static ActionResult AsAlreadyReportedOrFailure<TData>(this OperationResult<TData> result)
+        {
+            return result.AsActionResult(StatusCodes.Status208AlreadyReported);
+        }
+
+        public static ActionResult AsIMUsedOrFailure<TData>(this OperationResult<TData> result)
+        {
+            return result.AsActionResult(StatusCodes.Status226IMUsed);
         }
 
         private static void CheckIfStatusisSuccessfull(int successResultCode)
