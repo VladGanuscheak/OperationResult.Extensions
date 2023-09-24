@@ -18,7 +18,10 @@
     <PackageReadmeFile>README.md</PackageReadmeFile>
     <PackageIcon>logo.png</PackageIcon>
     <PackageIconUrl />
-    <PackageReleaseNotes>Migrated to .Net Core 2.0</PackageReleaseNotes>
+    <PackageReleaseNotes>Migrated to .Net Core 2.0.
+Added such success OperationReult to ActionResult extension as "AsAlreadyReportedOrFailure" and "AsIMUsedOrFailure". 
+Added such failure OperationResult definisions inside the OperationResultHelper as "PayloadTooLarge", "UriTooLong", "RangeNotSatisfiable", "MisdirectedRequest", "UpgradeRequired", "PreconditionRequired", "TooManyRequests" and "RequestHeaderFieldsTooLarge".
+</PackageReleaseNotes>
   </PropertyGroup>
 
   <ItemGroup>
