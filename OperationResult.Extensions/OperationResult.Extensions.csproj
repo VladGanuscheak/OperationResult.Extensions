@@ -3,12 +3,13 @@
   <PropertyGroup>
     <TargetFramework>netcoreapp2.1</TargetFramework>
     <PackageId>OperationResult.Extensions</PackageId>
-    <Version>2.1.0</Version>
+    <Version>2.1.1</Version>
     <Authors>Ganușceac Vlad</Authors>
     <Product>OperationResult.Extensions</Product>
     <Title>OperationResult.Extensions</Title>
     <Description>
       The extensions for OperationResult have been created for managing HTTP statuses via OperationResult library and converting the corresponding execution results into ActionResults.
+      Also it is possible to cast FailureOperationResult or FailureOperationResult&lt;TData&gt; to the indicated FailureOperationResult&lt;TDestination&gt; using the corresponding extensions.
     </Description>
     <RepositoryUrl>https://github.com/VladGanuscheak/OperationResult.Extensions</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
@@ -18,7 +19,7 @@
     <PackageReadmeFile>README.md</PackageReadmeFile>
     <PackageIcon>logo.png</PackageIcon>
     <PackageIconUrl />
-    <PackageReleaseNotes>Migrated to .Net Core 2.1</PackageReleaseNotes>
+    <PackageReleaseNotes>Added extension methods for casting operation failure results (Conversion from FailureOperationResult/FailureOperationResult&lt;TData&gt; to FailureOperationResult&lt;TDestination&gt;).</PackageReleaseNotes>
   </PropertyGroup>
 
   <ItemGroup>
