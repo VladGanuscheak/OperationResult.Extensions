@@ -2,11 +2,94 @@
 using Microsoft.AspNetCore.Mvc;
 using OperationResult.Results;
 using System;
+using System.Linq;
+using System.Reflection;
+using System.Xml.Linq;
 
 namespace OperationResult.Extensions
 {
     public static class OperationResultExtensions
     {
+        #region Cast Result Extensions
+
+        /// <summary>
+        ///     Converts the current FailureOperationResult to the OperationFailureResult<TDestination>
+        /// </summary>
+        /// <typeparam name="TDestination">The part of final FailureOperationResult<TDestination></typeparam>
+        /// <param name="result">The current failure result</param>
+        /// <returns></returns>
+        public static OperationResult<TDestination> AsFailureResult<TDestination>(this OperationResult result)
+        {
+            EnsureIsFailureResult(result);
+
+            var failureResult = result as FailureOperationResult;
+
+            if (failureResult == null)
+            {
+                var genericType = result.GetType().GetGenericArguments()[0];
+
+                var methodInfo = typeof(OperationResultExtensions).GetMethods()
+                    .Where(x => x.Name == nameof(AsFailureResult) && x.GetParameters().FirstOrDefault(p => p.Position == 0 && p.ParameterType.IsGenericType) != null)
+                    .FirstOrDefault();
+
+                if (methodInfo == null)
+                {
+                    throw new ArgumentNullException("AsFailureResult<TData, TDestination>");
+                }
+
+                MethodInfo method = methodInfo
+                    .MakeGenericMethod(new Type[] { genericType, typeof(TDestination) });
+                return method.Invoke(null, new object[] { result }) as FailureOperationResult<TDestination>;
+            }
+
+            var response = OperationResult<TDestination>.Failed()
+                .WithCode(failureResult.Code)
+                .WithMessages(failureResult.Messages);
+
+            if (failureResult.Arguments?.Any() ?? false)
+            {
+                response = response.WithArguments(failureResult.Arguments);
+            }
+
+            if (failureResult.Errors?.Any() ?? false)
+            {
+                response = response.WithErrors(failureResult.Errors);
+            }
+
+            return response;
+        }
+
+        /// <summary>
+        ///     Converts the current FailureOperationResult<TData> to the OperationFailureResult<TDestination>
+        /// </summary>
+        /// <typeparam name="TDestination">The part of final FailureOperationResult<TDestination></typeparam>
+        /// <param name="result">The current failure result</param>
+        /// <returns></returns>
+        public static OperationResult<TDestination> AsFailureResult<TData, TDestination>(this OperationResult<TData> result)
+        {
+            EnsureIsFailureResult(result);
+
+            var failureResult = result as FailureOperationResult<TData>;
+
+            var response = OperationResult<TDestination>.Failed()
+                .WithCode(failureResult.Code)
+                .WithMessages(failureResult.Messages);
+
+            if (failureResult.Arguments?.Any() ?? false)
+            {
+                response = response.WithArguments(failureResult.Arguments);
+            }
+
+            if (failureResult.Errors?.Any() ?? false)
+            {
+                response = response.WithErrors(failureResult.Errors);
+            }
+
+            return response;
+        }
+
+        #endregion
+
         public static ActionResult AsOkOrFailure(this OperationResult result)
         {
             return result.AsActionResult(StatusCodes.Status200OK);
@@ -107,7 +190,7 @@ namespace OperationResult.Extensions
             return result.AsActionResult(StatusCodes.Status226IMUsed);
         }
 
-        private static void CheckIfStatusisSuccessfull(int successResultCode)
+        private static void CheckIfStatusIsSuccessfull(int successResultCode)
         {
             if (100 > successResultCode || successResultCode >= 400)
             {
@@ -125,7 +208,7 @@ namespace OperationResult.Extensions
 
         private static ActionResult AsActionResult(this OperationResult result, int successResultCode)
         {
-            CheckIfStatusisSuccessfull(successResultCode);
+            CheckIfStatusIsSuccessfull(successResultCode);
             if (result.HasSucceeded)
             {
                 return new StatusCodeResult(successResultCode);
@@ -176,7 +259,7 @@ namespace OperationResult.Extensions
 
         private static ActionResult AsActionResult<TData>(this OperationResult<TData> result, int successResultCode)
         {
-            CheckIfStatusisSuccessfull(successResultCode);
+            CheckIfStatusIsSuccessfull(successResultCode);
             if (result.HasSucceeded)
             {
                 return result.AsSuccessObjectResult(successResultCode);
@@ -197,7 +280,7 @@ namespace OperationResult.Extensions
         private static ActionResult AsCreatedResult<TData>(this OperationResult<TData> result, string url)
         {
             int successResultCode = 201;
-            CheckIfStatusisSuccessfull(successResultCode);
+            CheckIfStatusIsSuccessfull(successResultCode);
             if (result.HasSucceeded)
             {
                 return new CreatedResult(url, ((SuccessOperationResult<TData>)result).Data);
@@ -218,7 +301,7 @@ namespace OperationResult.Extensions
         private static ActionResult AsCreatedResult<TData>(this OperationResult<TData> result, Uri uri)
         {
             int successResultCode = 201;
-            CheckIfStatusisSuccessfull(successResultCode);
+            CheckIfStatusIsSuccessfull(successResultCode);
             if (result.HasSucceeded)
             {
                 return new CreatedResult(uri, ((SuccessOperationResult<TData>)result).Data);
@@ -234,6 +317,16 @@ namespace OperationResult.Extensions
             ObjectResult objectResult = new ObjectResult(result.Messages);
             objectResult.StatusCode = badRequest.Item2;
             return objectResult;
+        }
+
+        private static void EnsureIsFailureResult(OperationResult result)
+        {
+            if (result == null) throw new ArgumentNullException(nameof(result));
+
+            if (result.HasSucceeded)
+            {
+                throw new ArgumentException("Only the failure result may be converted to a failure result of another type!");
+            }
         }
     }
 }
