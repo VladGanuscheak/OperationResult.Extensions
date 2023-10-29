@@ -1,9 +1,9 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netcoreapp2.1</TargetFramework>
+    <TargetFramework>netcoreapp2.2</TargetFramework>
     <PackageId>OperationResult.Extensions</PackageId>
-    <Version>2.1.1</Version>
+    <Version>2.2.0</Version>
     <Authors>Ganușceac Vlad</Authors>
     <Product>OperationResult.Extensions</Product>
     <Title>OperationResult.Extensions</Title>
@@ -35,11 +35,11 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Core" Version="2.2.5" />
-    <PackageReference Include="OperationResult.Net" Version="2.0.0" />
+    <PackageReference Include="OperationResult.Net" Version="2.2.0" />
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Update="Microsoft.NETCore.App" Version="2.1.30" />
+    <PackageReference Update="Microsoft.NETCore.App" Version="2.2.8" />
   </ItemGroup>
 
 </Project>
