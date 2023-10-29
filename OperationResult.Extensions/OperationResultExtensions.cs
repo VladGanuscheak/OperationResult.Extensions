@@ -4,7 +4,6 @@ using OperationResult.Results;
 using System;
 using System.Linq;
 using System.Reflection;
-using System.Xml.Linq;
 
 namespace OperationResult.Extensions
 {
