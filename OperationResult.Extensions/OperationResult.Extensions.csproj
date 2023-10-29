@@ -19,7 +19,8 @@
     <PackageReadmeFile>README.md</PackageReadmeFile>
     <PackageIcon>logo.png</PackageIcon>
     <PackageIconUrl />
-    <PackageReleaseNotes>Added extension methods for casting operation failure results (Conversion from FailureOperationResult/FailureOperationResult&lt;TData&gt; to FailureOperationResult&lt;TDestination&gt;).</PackageReleaseNotes>
+    <PackageReleaseNotes>Added extension methods for casting operation failure results (Conversion from FailureOperationResult/FailureOperationResult&lt;TData&gt; to FailureOperationResult&lt;TDestination&gt;). 
+Migrated to .Net Core 2.2</PackageReleaseNotes>
   </PropertyGroup>
 
   <ItemGroup>
