@@ -213,7 +213,7 @@ namespace OperationResult.Extensions
                 return new StatusCodeResult(successResultCode);
             }
 
-            Tuple<BadRequestObjectResult, int> badRequest = result.GetBadRequest();
+            var badRequest = result.GetBadRequest();
             if (badRequest.Item1 != null)
             {
                 return badRequest.Item1;
@@ -239,13 +239,13 @@ namespace OperationResult.Extensions
             return objectResult2;
         }
 
-        private static Tuple<BadRequestObjectResult, int> GetBadRequest(this OperationResult result)
+        private static (BadRequestObjectResult, int) GetBadRequest(this OperationResult result)
         {
             int result2;
             bool flag = int.TryParse(result.Code, out result2);
             if (string.IsNullOrEmpty(result.Code) || string.IsNullOrWhiteSpace(result.Code))
             {
-                return new Tuple<BadRequestObjectResult, int>(new BadRequestObjectResult(result.Messages), 400);
+                return (new BadRequestObjectResult(result.Messages), 400);
             }
 
             if (!flag)
@@ -253,7 +253,7 @@ namespace OperationResult.Extensions
                 throw new ArgumentException("The http code of the error/failure result wasn't specified as a numeric number!");
             }
 
-            return new Tuple<BadRequestObjectResult, int>(null, result2);
+            return (null, result2);
         }
 
         private static ActionResult AsActionResult<TData>(this OperationResult<TData> result, int successResultCode)
@@ -264,7 +264,7 @@ namespace OperationResult.Extensions
                 return result.AsSuccessObjectResult(successResultCode);
             }
 
-            Tuple<BadRequestObjectResult, int> badRequest = result.GetBadRequest();
+            var badRequest = result.GetBadRequest();
             if (badRequest.Item1 != null)
             {
                 return badRequest.Item1;
@@ -285,7 +285,7 @@ namespace OperationResult.Extensions
                 return new CreatedResult(url, ((SuccessOperationResult<TData>)result).Data);
             }
 
-            Tuple<BadRequestObjectResult, int> badRequest = result.GetBadRequest();
+            var badRequest = result.GetBadRequest();
             if (badRequest.Item1 != null)
             {
                 return badRequest.Item1;
@@ -306,7 +306,7 @@ namespace OperationResult.Extensions
                 return new CreatedResult(uri, ((SuccessOperationResult<TData>)result).Data);
             }
 
-            Tuple<BadRequestObjectResult, int> badRequest = result.GetBadRequest();
+            var badRequest = result.GetBadRequest();
             if (badRequest.Item1 != null)
             {
                 return badRequest.Item1;

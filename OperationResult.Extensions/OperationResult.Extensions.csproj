@@ -1,9 +1,9 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netcoreapp2.2</TargetFramework>
+    <TargetFramework>netcoreapp3.0</TargetFramework>
     <PackageId>OperationResult.Extensions</PackageId>
-    <Version>2.2.0</Version>
+    <Version>3.0.0</Version>
     <Authors>Ganușceac Vlad</Authors>
     <Product>OperationResult.Extensions</Product>
     <Title>OperationResult.Extensions</Title>
@@ -19,8 +19,7 @@
     <PackageReadmeFile>README.md</PackageReadmeFile>
     <PackageIcon>logo.png</PackageIcon>
     <PackageIconUrl />
-    <PackageReleaseNotes>Added extension methods for casting operation failure results (Conversion from FailureOperationResult/FailureOperationResult&lt;TData&gt; to FailureOperationResult&lt;TDestination&gt;). 
-Migrated to .Net Core 2.2</PackageReleaseNotes>
+    <PackageReleaseNotes>Migrated to .Net Core 3.0</PackageReleaseNotes>
   </PropertyGroup>
 
   <ItemGroup>
@@ -35,12 +34,8 @@ Migrated to .Net Core 2.2</PackageReleaseNotes>
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.Mvc.Core" Version="2.2.5" />
-    <PackageReference Include="OperationResult.Net" Version="2.2.0" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <PackageReference Update="Microsoft.NETCore.App" Version="2.2.8" />
+    <FrameworkReference Include="Microsoft.AspNetCore.App" />
+    <PackageReference Include="OperationResult.Net" Version="3.0.0" />
   </ItemGroup>
 
 </Project>
