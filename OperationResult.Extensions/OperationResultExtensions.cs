@@ -21,9 +21,7 @@ namespace OperationResult.Extensions
         {
             EnsureIsFailureResult(result);
 
-            var failureResult = result as FailureOperationResult;
-
-            if (failureResult == null)
+            if (result is not FailureOperationResult failureResult)
             {
                 var genericType = result.GetType().GetGenericArguments()[0];
 
@@ -33,7 +31,7 @@ namespace OperationResult.Extensions
 
                 if (methodInfo == null)
                 {
-                    throw new ArgumentNullException("AsFailureResult<TData, TDestination>");
+                    throw new ArgumentNullException(nameof(AsFailureResult));
                 }
 
                 MethodInfo method = methodInfo
@@ -220,7 +218,7 @@ namespace OperationResult.Extensions
             }
 
             CheckIfIsValidErrorCode(badRequest.Item2);
-            ObjectResult objectResult = new ObjectResult(result.Messages);
+            ObjectResult objectResult = new(result.Messages);
             objectResult.StatusCode = badRequest.Item2;
             return objectResult;
         }
@@ -229,20 +227,19 @@ namespace OperationResult.Extensions
         {
             if (successResultCode == 204)
             {
-                ObjectResult objectResult = new ObjectResult(null);
+                ObjectResult objectResult = new(null);
                 objectResult.StatusCode = successResultCode;
                 return objectResult;
             }
 
-            ObjectResult objectResult2 = new ObjectResult(((SuccessOperationResult<TData>)result).Data);
+            ObjectResult objectResult2 = new(((SuccessOperationResult<TData>)result).Data);
             objectResult2.StatusCode = successResultCode;
             return objectResult2;
         }
 
         private static (BadRequestObjectResult, int) GetBadRequest(this OperationResult result)
         {
-            int result2;
-            bool flag = int.TryParse(result.Code, out result2);
+            bool flag = int.TryParse(result.Code, out int result2);
             if (string.IsNullOrEmpty(result.Code) || string.IsNullOrWhiteSpace(result.Code))
             {
                 return (new BadRequestObjectResult(result.Messages), 400);
@@ -271,7 +268,7 @@ namespace OperationResult.Extensions
             }
 
             CheckIfIsValidErrorCode(badRequest.Item2);
-            ObjectResult objectResult = new ObjectResult(result.Messages);
+            ObjectResult objectResult = new(result.Messages);
             objectResult.StatusCode = badRequest.Item2;
             return objectResult;
         }
@@ -292,7 +289,7 @@ namespace OperationResult.Extensions
             }
 
             CheckIfIsValidErrorCode(badRequest.Item2);
-            ObjectResult objectResult = new ObjectResult(result.Messages);
+            ObjectResult objectResult = new(result.Messages);
             objectResult.StatusCode = badRequest.Item2;
             return objectResult;
         }
@@ -313,7 +310,7 @@ namespace OperationResult.Extensions
             }
 
             CheckIfIsValidErrorCode(badRequest.Item2);
-            ObjectResult objectResult = new ObjectResult(result.Messages);
+            ObjectResult objectResult = new(result.Messages);
             objectResult.StatusCode = badRequest.Item2;
             return objectResult;
         }
