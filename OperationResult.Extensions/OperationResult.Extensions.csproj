@@ -1,9 +1,9 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net6.0</TargetFramework>
+    <TargetFramework>net7.0</TargetFramework>
     <PackageId>OperationResult.Extensions</PackageId>
-    <Version>6.0.0</Version>
+    <Version>7.0.0</Version>
     <Authors>Ganușceac Vlad</Authors>
     <Product>OperationResult.Extensions</Product>
     <Title>OperationResult.Extensions</Title>
@@ -19,7 +19,7 @@
     <PackageReadmeFile>README.md</PackageReadmeFile>
     <PackageIcon>logo.png</PackageIcon>
     <PackageIconUrl />
-    <PackageReleaseNotes>Migrated to .Net 6.0</PackageReleaseNotes>
+    <PackageReleaseNotes>Migrated to .Net 7.0</PackageReleaseNotes>
   </PropertyGroup>
 
   <ItemGroup>
@@ -35,7 +35,7 @@
 
   <ItemGroup>
     <FrameworkReference Include="Microsoft.AspNetCore.App" />
-    <PackageReference Include="OperationResult.Net" Version="6.0.0" />
+    <PackageReference Include="OperationResult.Net" Version="7.0.0" />
   </ItemGroup>
 
 </Project>
