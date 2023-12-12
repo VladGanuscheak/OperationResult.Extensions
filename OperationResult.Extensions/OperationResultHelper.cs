@@ -101,6 +101,9 @@ namespace OperationResult.Extensions
 
         public static OperationResult UnavailableForLegalReasons(params string[] messages)
             => FailureResult(StatusCodes.Status451UnavailableForLegalReasons, messages);
+
+        public static OperationResult ClientClosedRequest(params string[] messages)
+            => FailureResult(StatusCodes.Status499ClientClosedRequest, messages);
         #endregion
 
         #region OperationResult<TData>
@@ -199,6 +202,9 @@ namespace OperationResult.Extensions
 
         public static OperationResult<TData> UnavailableForLegalReasons<TData>(params string[] messages)
             => FailureResult<TData>(StatusCodes.Status451UnavailableForLegalReasons, messages);
+
+        public static OperationResult<TData> ClientClosedRequest<TData>(params string[] messages)
+            => FailureResult<TData>(StatusCodes.Status499ClientClosedRequest, messages);
         #endregion
 
         private static void EnsureFailureStatusCode(int code)
