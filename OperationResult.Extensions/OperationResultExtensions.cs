@@ -40,8 +40,12 @@ namespace OperationResult.Extensions
             }
 
             var response = OperationResult<TDestination>.Failed()
-                .WithCode(failureResult.Code)
-                .WithMessages(failureResult.Messages);
+                .WithCode(failureResult.Code);
+
+            if (failureResult.Messages?.Any() ?? false)
+            {
+                response = response.WithMessages(failureResult.Messages);
+            }
 
             if (failureResult.Arguments?.Any() ?? false)
             {
@@ -189,17 +193,17 @@ namespace OperationResult.Extensions
 
         private static void CheckIfStatusIsSuccessfull(int successResultCode)
         {
-            if (100 > successResultCode || successResultCode >= 400)
+            if (StatusCodes.Status100Continue > successResultCode || successResultCode >= StatusCodes.Status400BadRequest)
             {
-                throw new ArgumentException("The successful status code result must be in the http codes range of [100, 400).");
+                throw new ArgumentException($"The successful status code result must be in the http codes range of [{StatusCodes.Status100Continue}, {StatusCodes.Status400BadRequest}).");
             }
         }
 
         private static void CheckIfIsValidErrorCode(int httpCode)
         {
-            if (httpCode < 400 || httpCode >= 500)
+            if (httpCode < StatusCodes.Status400BadRequest || httpCode >= StatusCodes.Status500InternalServerError)
             {
-                throw new ArgumentException("The http code isn't in the [400, 500)");
+                throw new ArgumentException($"The http code isn't in the [{StatusCodes.Status400BadRequest}, {StatusCodes.Status500InternalServerError})");
             }
         }
 
@@ -225,7 +229,7 @@ namespace OperationResult.Extensions
 
         private static ObjectResult AsSuccessObjectResult<TData>(this OperationResult<TData> result, int successResultCode)
         {
-            if (successResultCode == 204)
+            if (successResultCode == StatusCodes.Status204NoContent)
             {
                 ObjectResult objectResult = new(null);
                 objectResult.StatusCode = successResultCode;
@@ -242,7 +246,7 @@ namespace OperationResult.Extensions
             bool flag = int.TryParse(result.Code, out int result2);
             if (string.IsNullOrEmpty(result.Code) || string.IsNullOrWhiteSpace(result.Code))
             {
-                return (new BadRequestObjectResult(result.Messages), 400);
+                return (new BadRequestObjectResult(result.Messages), StatusCodes.Status400BadRequest);
             }
 
             if (!flag)

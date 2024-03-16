@@ -209,9 +209,9 @@ namespace OperationResult.Extensions
 
         private static void EnsureFailureStatusCode(int code)
         {
-            if (code < 400 || code >= 500)
+            if (code < StatusCodes.Status400BadRequest || code >= StatusCodes.Status500InternalServerError)
             {
-                throw new ArgumentException("The result failure code does not enter in the [400-499] http status code range!");
+                throw new ArgumentException($"The result failure code does not enter in the [{StatusCodes.Status400BadRequest}-{StatusCodes.Status499ClientClosedRequest}] http status code range!");
             }
         }
 
