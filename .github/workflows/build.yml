@@ -44,7 +44,7 @@ jobs:
         shell: powershell
         run: |
           .\.sonar\scanner\dotnet-sonarscanner begin /k:"VladGanuscheak_OperationResult.Extensions" /o:"vlad-ganuscheak" /d:sonar.token="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io"
-          cd OperationResult.Extensions
-          dotnet restore
-          dotnet build --configuration Release
+          dotnet restore .\OperationResult.Extensions\OperationResult.Extensions.sln
+          dotnet build .\OperationResult.Extensions\OperationResult.Extensions.sln --configuration Release
+          dotnet test .\OperationResult.Extensions\OperationResult.Extensions.sln --no-build
           .\.sonar\scanner\dotnet-sonarscanner end /d:sonar.token="${{ secrets.SONAR_TOKEN }}"
