@@ -35,8 +35,8 @@ namespace OperationResult.Extensions
                 }
 
                 MethodInfo method = methodInfo
-                    .MakeGenericMethod(new Type[] { genericType, typeof(TDestination) });
-                return method.Invoke(null, new object[] { result }) as FailureOperationResult<TDestination>;
+                    .MakeGenericMethod([genericType, typeof(TDestination)]);
+                return method.Invoke(null, [result]) as FailureOperationResult<TDestination>;
             }
 
             var response = OperationResult<TDestination>.Failed()

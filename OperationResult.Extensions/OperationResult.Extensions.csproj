@@ -1,9 +1,9 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net8.0</TargetFramework>
+    <TargetFramework>net9.0</TargetFramework>
     <PackageId>OperationResult.Extensions</PackageId>
-    <Version>8.0.1</Version>
+    <Version>9.0.0</Version>
     <Authors>Ganușceac Vlad</Authors>
     <Product>OperationResult.Extensions</Product>
     <Title>OperationResult.Extensions</Title>
@@ -14,15 +14,20 @@
     <RepositoryUrl>https://github.com/VladGanuscheak/OperationResult.Extensions</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
     <PackageTags>result;operationresult;fluent;fluentresult;fluentoperationresult;extensions;utility;.net;dotnet;c#</PackageTags>
-    <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
     <PackageReadmeFile>README.md</PackageReadmeFile>
     <PackageIcon>logo.png</PackageIcon>
     <PackageIconUrl />
-    <PackageReleaseNotes>Used up-to-date versions of referenced packages</PackageReleaseNotes>
+    <PackageReleaseNotes>Upgraded to .NET 9</PackageReleaseNotes>
+    <PackageRequireLicenseAcceptance>True</PackageRequireLicenseAcceptance>
+    <PackageLicenseFile>license.txt</PackageLicenseFile>
   </PropertyGroup>
 
   <ItemGroup>
+    <None Include="..\license.txt">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
     <None Include="..\README.md">
       <Pack>True</Pack>
       <PackagePath>\</PackagePath>
@@ -35,7 +40,10 @@
 
   <ItemGroup>
     <FrameworkReference Include="Microsoft.AspNetCore.App" />
-    <PackageReference Include="OperationResult.Net" Version="8.0.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="OperationResult.Net" Version="9.0.0" />
   </ItemGroup>
 
 </Project>
