@@ -28,7 +28,7 @@ namespace OperationResult.Extensions
                 var methodInfo = typeof(OperationResultExtensions).GetMethods()
                     .FirstOrDefault(x => x.Name == nameof(AsFailureResult) && x.GetParameters().FirstOrDefault(p => p.Position == 0 && p.ParameterType.IsGenericType) is not null);
 
-                ArgumentNullException.ThrowIfNull(methodInfo, nameof(AsFailureResult));
+                ArgumentNullException.ThrowIfNull(methodInfo);
 
                 MethodInfo method = methodInfo
                     .MakeGenericMethod([genericType, typeof(TDestination)]);
@@ -226,6 +226,29 @@ namespace OperationResult.Extensions
             return objectResult;
         }
 
+        private static ActionResult AsActionResult<TData>(this OperationResult<TData> result, int successResultCode)
+        {
+            CheckIfStatusIsSuccessfull(successResultCode);
+            if (result.HasSucceeded)
+            {
+                return result.AsSuccessObjectResult(successResultCode);
+            }
+
+            var badRequest = result.GetBadRequest();
+            if (badRequest.Item1 != null)
+            {
+                return badRequest.Item1;
+            }
+
+            CheckIfIsValidErrorCode(badRequest.Item2);
+            ObjectResult objectResult = new(result.Messages)
+            {
+                StatusCode = badRequest.Item2
+            };
+            return objectResult;
+        }
+
+
         private static ObjectResult AsSuccessObjectResult<TData>(this OperationResult<TData> result, int successResultCode)
         {
             if (successResultCode == StatusCodes.Status204NoContent)
@@ -259,28 +282,7 @@ namespace OperationResult.Extensions
 
             return (null, result2);
         }
-
-        private static ActionResult AsActionResult<TData>(this OperationResult<TData> result, int successResultCode)
-        {
-            CheckIfStatusIsSuccessfull(successResultCode);
-            if (result.HasSucceeded)
-            {
-                return result.AsSuccessObjectResult(successResultCode);
-            }
-
-            var badRequest = result.GetBadRequest();
-            if (badRequest.Item1 != null)
-            {
-                return badRequest.Item1;
-            }
-
-            CheckIfIsValidErrorCode(badRequest.Item2);
-            ObjectResult objectResult = new(result.Messages)
-            {
-                StatusCode = badRequest.Item2
-            };
-            return objectResult;
-        }
+        
 
         private static ActionResult AsCreatedResult<TData>(this OperationResult<TData> result, string url)
         {
@@ -330,7 +332,7 @@ namespace OperationResult.Extensions
 
         private static void EnsureIsFailureResult(OperationResult result)
         {
-            ArgumentNullException.ThrowIfNull(result, nameof(result));
+            ArgumentNullException.ThrowIfNull(result);
 
             if (result.HasSucceeded)
             {
