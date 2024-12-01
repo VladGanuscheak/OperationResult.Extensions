@@ -26,13 +26,9 @@ namespace OperationResult.Extensions
                 var genericType = result.GetType().GetGenericArguments()[0];
 
                 var methodInfo = typeof(OperationResultExtensions).GetMethods()
-                    .Where(x => x.Name == nameof(AsFailureResult) && x.GetParameters().FirstOrDefault(p => p.Position == 0 && p.ParameterType.IsGenericType) != null)
-                    .FirstOrDefault();
+                    .FirstOrDefault(x => x.Name == nameof(AsFailureResult) && x.GetParameters().FirstOrDefault(p => p.Position == 0 && p.ParameterType.IsGenericType) is not null);
 
-                if (methodInfo == null)
-                {
-                    throw new ArgumentNullException(nameof(AsFailureResult));
-                }
+                ArgumentNullException.ThrowIfNull(methodInfo, nameof(AsFailureResult));
 
                 MethodInfo method = methodInfo
                     .MakeGenericMethod([genericType, typeof(TDestination)]);
@@ -42,17 +38,17 @@ namespace OperationResult.Extensions
             var response = OperationResult<TDestination>.Failed()
                 .WithCode(failureResult.Code);
 
-            if (failureResult.Messages?.Any() ?? false)
+            if (failureResult.Messages is not null && failureResult.Messages.Count > 0)
             {
                 response = response.WithMessages(failureResult.Messages);
             }
 
-            if (failureResult.Arguments?.Any() ?? false)
+            if (failureResult.Arguments is not null && failureResult.Arguments.Count > 0)
             {
                 response = response.WithArguments(failureResult.Arguments);
             }
 
-            if (failureResult.Errors?.Any() ?? false)
+            if (failureResult.Errors is not null && failureResult.Errors.Count > 0)
             {
                 response = response.WithErrors(failureResult.Errors);
             }
@@ -76,12 +72,12 @@ namespace OperationResult.Extensions
                 .WithCode(failureResult.Code)
                 .WithMessages(failureResult.Messages);
 
-            if (failureResult.Arguments?.Any() ?? false)
+            if (failureResult.Arguments is not null && failureResult.Arguments.Count > 0)
             {
                 response = response.WithArguments(failureResult.Arguments);
             }
 
-            if (failureResult.Errors?.Any() ?? false)
+            if (failureResult.Errors is not null && failureResult.Errors.Count > 0)
             {
                 response = response.WithErrors(failureResult.Errors);
             }
@@ -95,101 +91,102 @@ namespace OperationResult.Extensions
         {
             return result.AsActionResult(StatusCodes.Status200OK);
         }
-
-        public static ActionResult AsAcceptedOrFailure(this OperationResult result)
-        {
-            return result.AsActionResult(StatusCodes.Status202Accepted);
-        }
-
-        public static ActionResult AsNonAuthoritativeOrFailure(this OperationResult result)
-        {
-            return result.AsActionResult(StatusCodes.Status203NonAuthoritative);
-        }
-
-        public static ActionResult AsNoContentOrFailure(this OperationResult result)
-        {
-            return result.AsActionResult(StatusCodes.Status204NoContent);
-        }
-
-        public static ActionResult AsResetContentOrFailure(this OperationResult result)
-        {
-            return result.AsActionResult(StatusCodes.Status205ResetContent);
-        }
-
-        public static ActionResult AsPartialContentOrFailure(this OperationResult result)
-        {
-            return result.AsActionResult(StatusCodes.Status206PartialContent);
-        }
-
-        public static ActionResult AsMultiStatusOrFailure(this OperationResult result)
-        {
-            return result.AsActionResult(StatusCodes.Status207MultiStatus);
-        }
-
-        public static ActionResult AsAlreadyReportedOrFailure(this OperationResult result)
-        {
-            return result.AsActionResult(StatusCodes.Status208AlreadyReported);
-        }
-
-        public static ActionResult AsIMUsedOrFailure(this OperationResult result)
-        {
-            return result.AsActionResult(StatusCodes.Status226IMUsed);
-        }
-
         public static ActionResult AsOkOrFailure<TData>(this OperationResult<TData> result)
         {
             return result.AsActionResult(StatusCodes.Status200OK);
         }
 
-        public static ActionResult AsCreatedOrFailure<TData>(this OperationResult<TData> result, string url)
-        {
-            return result.AsCreatedResult(url);
-        }
 
-        public static ActionResult AsCreatedOrFailure<TData>(this OperationResult<TData> result, Uri uri)
+        public static ActionResult AsAcceptedOrFailure(this OperationResult result)
         {
-            return result.AsCreatedResult(uri);
+            return result.AsActionResult(StatusCodes.Status202Accepted);
         }
-
         public static ActionResult AsAcceptedOrFailure<TData>(this OperationResult<TData> result)
         {
             return result.AsActionResult(StatusCodes.Status202Accepted);
         }
 
+
+        public static ActionResult AsNonAuthoritativeOrFailure(this OperationResult result)
+        {
+            return result.AsActionResult(StatusCodes.Status203NonAuthoritative);
+        }
         public static ActionResult AsNonAuthoritativeOrFailure<TData>(this OperationResult<TData> result)
         {
             return result.AsActionResult(StatusCodes.Status203NonAuthoritative);
         }
 
+
+        public static ActionResult AsNoContentOrFailure(this OperationResult result)
+        {
+            return result.AsActionResult(StatusCodes.Status204NoContent);
+        }
         public static ActionResult AsNoContentOrFailure<TData>(this OperationResult<TData> result)
         {
             return result.AsActionResult(StatusCodes.Status204NoContent);
         }
 
+
+        public static ActionResult AsResetContentOrFailure(this OperationResult result)
+        {
+            return result.AsActionResult(StatusCodes.Status205ResetContent);
+        }
         public static ActionResult AsResetContentOrFailure<TData>(this OperationResult<TData> result)
         {
             return result.AsActionResult(StatusCodes.Status205ResetContent);
         }
 
+
+        public static ActionResult AsPartialContentOrFailure(this OperationResult result)
+        {
+            return result.AsActionResult(StatusCodes.Status206PartialContent);
+        }
         public static ActionResult AsPartialContentOrFailure<TData>(this OperationResult<TData> result)
         {
             return result.AsActionResult(StatusCodes.Status206PartialContent);
         }
 
+
+        public static ActionResult AsMultiStatusOrFailure(this OperationResult result)
+        {
+            return result.AsActionResult(StatusCodes.Status207MultiStatus);
+        }
         public static ActionResult AsMultiStatusOrFailure<TData>(this OperationResult<TData> result)
         {
             return result.AsActionResult(StatusCodes.Status207MultiStatus);
         }
 
+
+        public static ActionResult AsAlreadyReportedOrFailure(this OperationResult result)
+        {
+            return result.AsActionResult(StatusCodes.Status208AlreadyReported);
+        }
         public static ActionResult AsAlreadyReportedOrFailure<TData>(this OperationResult<TData> result)
         {
             return result.AsActionResult(StatusCodes.Status208AlreadyReported);
         }
 
+
+        public static ActionResult AsIMUsedOrFailure(this OperationResult result)
+        {
+            return result.AsActionResult(StatusCodes.Status226IMUsed);
+        }
         public static ActionResult AsIMUsedOrFailure<TData>(this OperationResult<TData> result)
         {
             return result.AsActionResult(StatusCodes.Status226IMUsed);
         }
+
+
+        public static ActionResult AsCreatedOrFailure<TData>(this OperationResult<TData> result, string url)
+        {
+            return result.AsCreatedResult(url);
+        }
+        public static ActionResult AsCreatedOrFailure<TData>(this OperationResult<TData> result, Uri uri)
+        {
+            return result.AsCreatedResult(uri);
+        }
+
+        
 
         private static void CheckIfStatusIsSuccessfull(int successResultCode)
         {
@@ -222,8 +219,10 @@ namespace OperationResult.Extensions
             }
 
             CheckIfIsValidErrorCode(badRequest.Item2);
-            ObjectResult objectResult = new(result.Messages);
-            objectResult.StatusCode = badRequest.Item2;
+            ObjectResult objectResult = new(result.Messages)
+            {
+                StatusCode = badRequest.Item2
+            };
             return objectResult;
         }
 
@@ -231,13 +230,17 @@ namespace OperationResult.Extensions
         {
             if (successResultCode == StatusCodes.Status204NoContent)
             {
-                ObjectResult objectResult = new(null);
-                objectResult.StatusCode = successResultCode;
+                ObjectResult objectResult = new(null)
+                {
+                    StatusCode = successResultCode
+                };
                 return objectResult;
             }
 
-            ObjectResult objectResult2 = new(((SuccessOperationResult<TData>)result).Data);
-            objectResult2.StatusCode = successResultCode;
+            ObjectResult objectResult2 = new(((SuccessOperationResult<TData>)result).Data)
+            {
+                StatusCode = successResultCode
+            };
             return objectResult2;
         }
 
@@ -272,8 +275,10 @@ namespace OperationResult.Extensions
             }
 
             CheckIfIsValidErrorCode(badRequest.Item2);
-            ObjectResult objectResult = new(result.Messages);
-            objectResult.StatusCode = badRequest.Item2;
+            ObjectResult objectResult = new(result.Messages)
+            {
+                StatusCode = badRequest.Item2
+            };
             return objectResult;
         }
 
@@ -293,8 +298,10 @@ namespace OperationResult.Extensions
             }
 
             CheckIfIsValidErrorCode(badRequest.Item2);
-            ObjectResult objectResult = new(result.Messages);
-            objectResult.StatusCode = badRequest.Item2;
+            ObjectResult objectResult = new(result.Messages)
+            {
+                StatusCode = badRequest.Item2
+            };
             return objectResult;
         }
 
@@ -314,14 +321,16 @@ namespace OperationResult.Extensions
             }
 
             CheckIfIsValidErrorCode(badRequest.Item2);
-            ObjectResult objectResult = new(result.Messages);
-            objectResult.StatusCode = badRequest.Item2;
+            ObjectResult objectResult = new(result.Messages)
+            {
+                StatusCode = badRequest.Item2
+            };
             return objectResult;
         }
 
         private static void EnsureIsFailureResult(OperationResult result)
         {
-            if (result == null) throw new ArgumentNullException(nameof(result));
+            ArgumentNullException.ThrowIfNull(result, nameof(result));
 
             if (result.HasSucceeded)
             {
